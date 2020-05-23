@@ -1,15 +1,16 @@
 import React, { useState } from 'react'
-import {View, TextInput, Button, StyleSheet} from 'react-native'
+import {View, TextInput, Button, StyleSheet, Alert} from 'react-native'
+import { THEME } from '../theme'
 
 export const AddTodo = ({onSubmit}) => {
     const [value, setValue] = useState('')
 
-    pressHandler = () => {
+    const pressHandler = () => {
         if (value.trim()) {
-            onSubmit('new todo')
+            onSubmit(value)
             setValue('')
         } else {
-            // error
+            Alert.alert('Write some text to create a new task')
         }
     }
 
@@ -20,6 +21,8 @@ export const AddTodo = ({onSubmit}) => {
                 onChangeText={setValue}
                 value={value}
                 placeholder="Enter a new task..."
+                autoCorrect={false}
+                autoCapitalize='none'
             />
             <Button title="Add task" onPress={pressHandler}/>
         </View>
@@ -38,6 +41,6 @@ const styles = StyleSheet.create({
         padding: 10,
         borderStyle: 'solid',
         borderBottomWidth: 2,
-        borderBottomColor: '#3949ab'
+        borderBottomColor: THEME.MAIN_COLOR
     }
 })
