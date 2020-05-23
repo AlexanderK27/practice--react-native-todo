@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import {View, TextInput, Button, StyleSheet, Alert} from 'react-native'
+import {View, TextInput, StyleSheet, Alert, Keyboard} from 'react-native'
 import { AntDesign } from '@expo/vector-icons'; 
 import { THEME } from '../theme'
 
@@ -10,6 +10,7 @@ export const AddTodo = ({onSubmit}) => {
         if (value.trim()) {
             onSubmit(value)
             setValue('')
+            Keyboard.dismiss()
         } else {
             Alert.alert('Write some text to create a new task')
         }
