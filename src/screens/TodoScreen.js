@@ -1,24 +1,36 @@
-import React, { useState } from 'react'
+import React, { useState, useContext } from 'react'
 import { View, StyleSheet } from 'react-native'
 import { FontAwesome, Entypo, MaterialCommunityIcons } from '@expo/vector-icons'
 
+import { TodoContext } from '../context/todo/todoContext'
+import { ScreenContext } from '../context/screen/screenContext'
 import { THEME } from '../theme'
 import { AppCard } from '../components/ui/AppCard'
 import { EditModal } from '../components/EditModal'
 import { AppText } from '../components/ui/AppText'
 import { AppButton } from '../components/ui/AppButton'
 
-export const TodoScreen = ({todo, goBack, onRemove, onEdit}) => {
+export const TodoScreen = () => {
+    const { todos, updateTodo, removeTodo } = useContext(TodoContext)
+    const { todoId, changeScreen } = useContext(ScreenContext)
+
     const [modal, setModal] = useState(false)
 
-    const editTodoTitle = title => {
+    const todo = todos.find(todo => todo.id === todoId)
+
+    const saveUpdateHandler = title => {
+        updateTodo(todo.id, title)
         setModal(false)
-        onEdit(todo.id, title)
     }
  
     return (
         <View>
-            <EditModal value={todo.title} visible={modal} onCancel={() => setModal(false)} onSave={editTodoTitle} />
+            <EditModal 
+                value={todo.title} 
+                visible={modal} 
+                onCancel={() => setModal(false)} 
+                onSave={saveUpdateHandler} 
+            />
 
             <AppCard style={styles.card}>
                 <AppText style={styles.title}>{todo.title}</AppText>
@@ -29,7 +41,7 @@ export const TodoScreen = ({todo, goBack, onRemove, onEdit}) => {
             <View style={styles.buttons}>
                 <View style={styles.button}>
                     <AppButton
-                        onPress={goBack}
+                        onPress={() => changeScreen(null)}
                         color={THEME.GREY_COLOR}
                     >
                         <Entypo name="back" size={20} color="#fff" />
@@ -37,7 +49,7 @@ export const TodoScreen = ({todo, goBack, onRemove, onEdit}) => {
                 </View>
                 <View style={styles.button}>
                     <AppButton
-                        onPress={onRemove.bind(null, todo.id)}
+                        onPress={removeTodo.bind(null, todo.id)}
                         color={THEME.DANGER_COLOR}
                     >
                         <MaterialCommunityIcons name="delete-circle-outline" size={20} color="#fff" />

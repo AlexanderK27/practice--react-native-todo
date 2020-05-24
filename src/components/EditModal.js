@@ -6,6 +6,11 @@ import { AppButton } from '../components/ui/AppButton'
 export const EditModal = ({ visible, onCancel, value, onSave }) => {
     const [title, setTitle] = useState(value)
 
+    const cancelHandler = () => {
+        setTitle(value)
+        onCancel()
+    }
+
     const saveHandler = () => {
         if(!title.trim()) {
             Alert.alert('Error', 'Task cannot be empty. To delete use delete button.')
@@ -27,7 +32,7 @@ export const EditModal = ({ visible, onCancel, value, onSave }) => {
                     maxLength={64}
                 />
                 <View style={styles.buttons}>
-                    <AppButton onPress={onCancel} color={THEME.DANGER_COLOR}>
+                    <AppButton onPress={cancelHandler} color={THEME.DANGER_COLOR}>
                         Cancel
                     </AppButton>
                     <AppButton onPress={saveHandler}>

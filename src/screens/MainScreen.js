@@ -1,18 +1,23 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { View, StyleSheet, FlatList, Image } from 'react-native'
 
 import { AddTodo } from '../components/AddTodo'
 import { Todo } from '../components/Todo'
 import { AppText } from '../components/ui/AppText'
+import { TodoContext } from '../context/todo/todoContext'
+import { ScreenContext } from '../context/screen/screenContext'
 
-export const MainScreen = ({todos, addTodo, openTodo, removeTodo}) => {
+export const MainScreen = () => {
+    const { todos, addTodo, removeTodo } = useContext(TodoContext)
+    const { changeScreen } = useContext(ScreenContext)
+
     let content = (
         <FlatList 
+            keyExtractor={item => item.id.toString()}
             data={todos}
             renderItem={({item}) => (
-                <Todo todo={item} onOpen={openTodo} onRemove={removeTodo}/>
+                <Todo todo={item} onOpen={changeScreen} onRemove={removeTodo}/>
             )}
-            keyExtractor={item => item.id.toString()}
         />
     )
 
@@ -23,7 +28,7 @@ export const MainScreen = ({todos, addTodo, openTodo, removeTodo}) => {
                     style={styles.image}
                     source={require('../../assets/no-items.png')}
                 />
-                <AppText style={{fontSize: 16}}>There are no tasks for today :)</AppText>
+                <AppText style={{fontSize: 16}}>There are no tasks for today</AppText>
             </View>
         )
     }
