@@ -10,7 +10,7 @@ export const MainLayout = () => {
     const { todoId } = useContext(ScreenContext)
 
     return (
-        <View>
+        <View style={styles.wrapper}>
             <Navbar title="Todo App" />
             <View style={styles.container}>
                 {
@@ -22,7 +22,11 @@ export const MainLayout = () => {
 }
 
 const styles = StyleSheet.create({
+    wrapper: {
+        flex: 1
+    },
     container: {
+        flex: 1,
         paddingHorizontal: 30,
         paddingVertical: 20
     },
